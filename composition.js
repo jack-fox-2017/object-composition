@@ -8,7 +8,6 @@ class Ingredient {
   constructor(name, amount) {
     this.name = name
     this.amount = amount
-    // this.has_sugar = has_sugar
   }
 }
 //Parents
@@ -17,6 +16,7 @@ class Cookie {
     this.name = name
     this.status = "mentah"
     this.ingredient = this.pisahIng(ingredients)
+    this.sugar = this.hasSugar(JSON.parse(this.ingredient))
   }
 
   bake() {
@@ -33,9 +33,18 @@ class Cookie {
     }
     return JSON.stringify(arrObj,null)
   }
+
+  hasSugar(ingredients){
+    for (var i = 0; i < ingredients.length; i++) {
+      if (ingredients[i].name == " sugar") {
+        return "=====>>>>> aDa GulaaaaAAAAAAaa";
+      }
+    }
+    return "Gak Aadaaaaa <<<<=======";
+  }
+
+
 }
-
-
 
 //Extends
 class PeanutButter extends Cookie {
