@@ -74,19 +74,27 @@ class CookieFactory {
       else {
         obj.has_sugar = false
       }
-      arr.push(JSON.stringify(new Ingredient(obj)))
+      arr.push(new Ingredient(obj))
     }
     return arr
   }
 
-  static cookieRecomendation() {
-    let today = 'tuesday'
-    // let today = 'sunday'
+  static cookieRecomendation(today, list) {
     if (today == 'tuesday') {
-      // 
+      let arr = []
+      label:
+      for (let i=0; i<list.length; i++) {
+        for (let j=0; j<list[i].ingredients.length; j++) {
+          if (list[i].ingredients[j].has_sugar == true) {
+            continue label
+          }
+        }
+        arr.push(list[i])
+      }
+      return arr
     }
     else {
-      //
+      return list
     }
   }
 }
@@ -107,4 +115,6 @@ class Ingredient {
 let fs = require('fs')
 let list = fs.readFileSync('cookies2.txt', 'utf8').trim().split('\n')
 
-console.log(CookieFactory.create(list));
+let batch_of_cookies = CookieFactory.create(list)
+// console.log(JSON.stringify(batch_of_cookies, null, 2));
+console.log(CookieFactory.cookieRecomendation('tuesday', batch_of_cookies));
