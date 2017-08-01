@@ -113,7 +113,7 @@ class CookieFactory {
 let batch_of_cookies = CookieFactory.create(options);
 // console.log(batch_of_cookies);
 
-let sugarFreeFoods = CookieFactory.cookieRecomendation ("fridy", batch_of_cookies);
+let sugarFreeFoods = CookieFactory.cookieRecomendation ("friday", batch_of_cookies);
 console.log("sugar free cakes are: ");
 for (var i = 0; i < sugarFreeFoods.length; i++) {
   console.log(sugarFreeFoods[i].name);
