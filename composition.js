@@ -88,14 +88,33 @@ class CookieFactory {
     }
       return arr
   }
+
+  static cookieRecomendation(hari, cookie){
+    let adaGula = []
+    let tanpaGula = []
+    for (var i = 0; i < cookie.length; i++) {
+      if (cookie[i].sugar == "Gak Aadaaaaa <<<<=======") {
+        tanpaGula.push(cookie[i])
+      }else {
+        adaGula.push(cookie[i])
+      }
+    }
+
+    if (hari == 'monday' || hari == 'friday') {
+      return tanpaGula
+    }else {
+      return adaGula
+    }
+  }
+
 }
 
 
 let batch_of_cookies = CookieFactory.create(options);
-console.log(batch_of_cookies);
+// console.log(batch_of_cookies);
 
-// let sugarFreeFoods = CookieFactory.cookieRecomendation ("thuesday", batch_of_cookies);
-// console.log("sugar free cakes are: ");
-// for (var i = 0; i < sugarFreeFoods.length; i++) {
-//   console.log(sugarFreeFoods[i].name);
-// }
+let sugarFreeFoods = CookieFactory.cookieRecomendation ("fridy", batch_of_cookies);
+console.log("sugar free cakes are: ");
+for (var i = 0; i < sugarFreeFoods.length; i++) {
+  console.log(sugarFreeFoods[i].name);
+}
