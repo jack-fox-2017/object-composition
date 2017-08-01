@@ -86,21 +86,24 @@ class CookieFactory {
     return bahan
   }
 
-  static cookieRecommendation(batch_of_cookies) {
-    let arr=[]
+  static cookieRecommendation(day, batch_of_cookies) {
+    let recCookie=[]
     // console.log(batch_of_cookies);
-    asd:
-    for (var i = 0; i < batch_of_cookies.length; i++) {
-      for (var j = 0; j < batch_of_cookies[i].ingredients.length; j++) {
-        // console.log(batch_of_cookies[i].ingredients[j]['has_sugar'] == true)
-        if(batch_of_cookies[i].ingredients[j].has_sugar == true) {
-          continue asd
+    if(day == "tuesday") {
+      loop1:
+      for (var i = 0; i < batch_of_cookies.length; i++) {
+        for (var j = 0; j < batch_of_cookies[i].ingredients.length; j++) {
+          // console.log(batch_of_cookies[i].ingredients[j]['has_sugar'] == true)
+          if(batch_of_cookies[i].ingredients[j].has_sugar == true) {
+            continue loop1
+          }
         }
-      }
-      arr.push(batch_of_cookies[i].name)
+        recCookie.push(batch_of_cookies[i].name)
 
+      }
+      return recCookie
     }
-    return arr
+
     // console.log(arr);
   }
 
@@ -108,6 +111,7 @@ class CookieFactory {
 
 
 let batch_of_cookies = CookieFactory.create(options);
-console.log(JSON.stringify(batch_of_cookies, null, 2));
-console.log(CookieFactory.cookieRecommendation(batch_of_cookies))
+// console.log(JSON.stringify(batch_of_cookies, null, 2));
+console.log(batch_of_cookies);
+console.log(CookieFactory.cookieRecommendation("tuesday", batch_of_cookies))
 // console.log(CookieFactory.splitIngredient(komposisi));
