@@ -2,10 +2,9 @@ const fs = require('fs');
 
 class Ingredient{
   constructor(options){
-    this.name = options[0];
-    this.ingredient = this.ing(options);
+    this.name = this.ing(options);
     this.amount = this.amo(options);
-    this.hasSugar = this.sugar(options);
+    this.hasSugar = this.sugar();
   }
   ing(options){
     let ingr = [];
@@ -13,7 +12,7 @@ class Ingredient{
     for(let i=0; i<ingSplit.length; i++){
       ingr.push(ingSplit[i].toString().split(':')[1].trim());
     }
-    return ingr;
+    return ingr.join(', ');
   }
   amo(options){
     let amount = [];
@@ -21,11 +20,12 @@ class Ingredient{
     for(let i=0; i<ingSplit.length; i++){
       amount.push(ingSplit[i].toString().split(':')[0].trim());
     }
-    return amount;
+    return amount.join(', ');
   }
-  sugar(options){
-    for(let i=0; i<this.ingredient.length; i++){
-      if(this.ingredient[i]==='sugar'){
+  sugar(){
+    let ingName = this.name.trim().split(',');
+    for(let i=0; i<ingName.length; i++){
+      if(ingName[i].trim()==='sugar'){
         return true;
       }
     }
@@ -33,10 +33,11 @@ class Ingredient{
   }
 }
 
-class Cookie extends Ingredient{
+class Cookie{
   constructor(options){
-    super(options);
+    this.name = options[0];
     this.status = 'mentah';
+    this.ingredient = new Ingredient(options);
   }
   bake(){
     this.status = 'selesai dimasak';
@@ -87,7 +88,7 @@ class CookieFactory{
   static recommend(day, batch){
     let recomm = [];
     for(let i=0; i<batch.length; i++){
-      if(!batch[i].hasSugar){
+      if(!batch[i].ingredient.hasSugar){
         recomm.push(batch[i]);
       }
     }
@@ -98,9 +99,9 @@ class CookieFactory{
 let options = fs.readFileSync('cookies.txt', 'utf8').toString().trim().split('\n');
 let batchOfCookies = CookieFactory.create(options);
 console.log(batchOfCookies);
-
 let sugarFreeFoods = CookieFactory.recommend('tuesday', batchOfCookies);
-console.log('sugar free cakes are :');
+console.log('\nsugar free cakes are :');
 for(let i=0; i<sugarFreeFoods.length; i++){
   console.log(sugarFreeFoods[i].name);
+  console.log('because the ingredients is',sugarFreeFoods[i].ingredient.name);
 }
