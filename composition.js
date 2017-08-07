@@ -2,7 +2,17 @@ class Cookie {
   constructor(name, ingredients) {
     this.name = name
     this.status = 'mentah'
-    this.ingredients = ingredients
+    this.ingredients = ingredients;
+    this.has_sugar = this.checkSugar()
+  }
+
+  checkSugar() {
+    for (let i=0; i<this.ingredients.length; i++) {
+      if (this.ingredients[i].name == 'sugar') {
+        return true
+      }
+    }
+    return false
   }
 
   bake() {
@@ -13,30 +23,27 @@ class Cookie {
 
 class PeanutButter extends Cookie {
   constructor(name, ingredients) {
-    super()
+    super(name, ingredients)
     this.peanut_count = 100
     this.name = name
-    this.ingredients = ingredients
   }
 }
 
 
 class ChocolateChip extends Cookie {
   constructor(name, ingredients) {
-    super()
+    super(name,ingredients)
     this.choco_chip_count = 200
     this.name = name
-    this.ingredients = ingredients
   }
 }
 
 
 class OtherCookie extends Cookie {
   constructor(name, ingredients) {
-    super()
+    super(name,ingredients)
     this.other_count = 150
     this.name = name
-    this.ingredients = ingredients
   }
 }
 
@@ -48,7 +55,9 @@ class CookieFactory {
     let arr = []
     for (let i=0; i<options.length; i++) {
       if (options[i].split(' = ')[0] == 'peanut butter') {
-        arr.push(new PeanutButter(options[i].split(' = ')[0], this.olahIngredients(options[i].split(' = ')[1])))
+        let arrIng = this.olahIngredients(options[i].split(' = ')[1]);
+        console.log(arrIng);
+        arr.push(new PeanutButter(options[i].split(' = ')[0], arrIng))
       }
       else if (options[i].split(' = ')[0] == 'chocolate chip') {
         arr.push(new ChocolateChip(options[i].split(' = ')[0], this.olahIngredients(options[i].split(' = ')[1])))
@@ -68,14 +77,9 @@ class CookieFactory {
       let amountName = perBahan[i].split(' : ')
       obj.name = amountName[1]
       obj.amount = amountName[0]
-      if (obj.name == 'sugar') {
-        obj.has_sugar = true
-      }
-      else {
-        obj.has_sugar = false
-      }
       arr.push(new Ingredient(obj))
     }
+    // console.log(arr);
     return arr
   }
 
@@ -104,7 +108,6 @@ class Ingredient {
   constructor(options) {
     this.name = options['name']
     this.amount = options['amount']
-    this.has_sugar = options['has_sugar']
   }
 }
 
@@ -116,9 +119,11 @@ let fs = require('fs')
 let list = fs.readFileSync('cookies2.txt', 'utf8').trim().split('\n')
 
 let batch_of_cookies = CookieFactory.create(list)
-// console.log(JSON.stringify(batch_of_cookies, null, 2));
-let sugarFreeFoods = CookieFactory.cookieRecomendation('tuesday', batch_of_cookies)
+console.log(JSON.stringify( batch_of_cookies, null, 2));
 
-for (let i=0; i<sugarFreeFoods.length; i++) {
-  console.log(sugarFreeFoods[i].name);
-}
+
+// let sugarFreeFoods = CookieFactory.cookieRecomendation('tuesday', batch_of_cookies)
+//
+// for (let i=0; i<sugarFreeFoods.length; i++) {
+//   console.log(sugarFreeFoods[i].name);
+// }
